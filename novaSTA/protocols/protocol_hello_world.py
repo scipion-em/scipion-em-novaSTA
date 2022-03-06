@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # **************************************************************************
 # *
-# * Authors:     you (you@yourinstitution.email)
+# * Authors:     Juan Martin Pinilla (scipion@cnb.csic.es)
 # *
 # * your institution
 # *
@@ -39,7 +39,7 @@ class novaSTAPrefixHelloWorld(Protocol):
     This protocol will print hello world in the console
     IMPORTANT: Classes names should be unique, better prefix them
     """
-    _label = 'Hello world'
+    _label = 'NovaSTA'
 
     # -------------------------- DEFINE param functions ----------------------
     def _defineParams(self, form):
@@ -49,39 +49,224 @@ class novaSTAPrefixHelloWorld(Protocol):
         """
         # You need a params to belong to a section:
         form.addSection(label=Message.LABEL_INPUT)
-        form.addParam('message', params.StringParam,
-                      default='Hello world!',
-                      label='Message', important=True,
+
+        # Este primer parametro no va al fichero, es para el comando principal
+
+        '''form.addParam('nCores', params.IntParam,
+                      default=0,
+                      allowsNull=False,
+                      label='Number of cores',
+                      help='Number of cores when running with CPU parallelization',
+                      allowsPointers=False)
+        '''
+
+        form.addParam('extractSubtomos', params.IntParam,
+                      default=1,
+                      allowsNull=False,
+                      label='Extract Subtomos',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('createRef', params.IntParam,
+                      default=0,
+                      allowsNull=False,
+                      label='Create Ref',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('symmetry', params.IntParam,
+                      default=1,
+                      allowsNull=False,
+                      label='Symmetry',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('class', params.IntParam,
+                      default=1,
+                      allowsNull=False,
+                      label='class',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('threshold', params.FloatParam,
+                      default=0.0,
+                      allowsNull=False,
+                      label='Threshold',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('motl', params.StringParam,
+                      default='./path/to/allmotl',
+                      label='Motl',
                       help='What will be printed in the console.')
 
-        form.addParam('times', params.IntParam,
-                      default=10,
-                      label='Times', important=True,
-                      help='Times the message will be printed.')
+        form.addParam('folder', params.StringParam,
+                      default='./path/to/processing/folder',
+                      label='Folder',
+                      help='What will be printed in the console.')
 
-        form.addParam('previousCount', params.IntParam,
-                      default=0,
-                      allowsNull=True,
-                      label='Previous count',
+        form.addParam('ref', params.StringParam,
+                      default='./path/to/ref',
+                      label='Ref',
+                      help='What will be printed in the console.')
+
+        form.addParam('mask', params.StringParam,
+                      default='../path/to/mask.em',
+                      label='Mask',
+                      help='What will be printed in the console.')
+
+        form.addParam('ccMask', params.StringParam,
+                      default='../path/to/ccmask.em',
+                      label='ccMask',
+                      help='What will be printed in the console.')
+
+        form.addParam('wedgeList', params.StringParam,
+                      default='../path/to/wedge_list.em',
+                      label='Wedge List',
+                      help='What will be printed in the console.')
+
+        form.addParam('subtomograms', params.StringParam,
+                      default='../path/to/subtomograms/subtomo',
+                      label='Subtograms',
+                      help='What will be printed in the console.')
+
+        form.addParam('iter', params.IntParam,
+                      default=2,
+                      allowsNull=False,
+                      label='Iter',
                       help='Previous count of printed messages',
-                      allowsPointers=True)
+                      allowsPointers=False)
 
-    # --------------------------- STEPS functions ------------------------------
+        form.addParam('startIndex', params.IntParam,
+                      default=0,
+                      allowsNull=False,
+                      label='Start Index',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('phiIter', params.IntParam,
+                      default=2,
+                      allowsNull=False,
+                      label='phiIter',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('phiIncr', params.IntParam,
+                      default=1,
+                      allowsNull=False,
+                      label='phiIncr',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('angIter', params.IntParam,
+                      default=2,
+                      allowsNull=False,
+                      label='angIter',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('angIncr', params.IntParam,
+                      default=2,
+                      allowsNull=False,
+                      label='angIncr',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('lowPass', params.IntParam,
+                      default=13,
+                      allowsNull=False,
+                      label='lowPass',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('highPass', params.IntParam,
+                      default=1,
+                      allowsNull=False,
+                      label='highPass',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('subtomoSize', params.IntParam,
+                      default=32,
+                      allowsNull=False,
+                      label='subtomoSize',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        form.addParam('tomograms', params.StringParam,
+                      default='./',
+                      label='Tomograms',
+                      help='What will be printed in the console.')
+
+        form.addParam('tomoDigits', params.IntParam,
+                      default=3,
+                      allowsNull=False,
+                      label='tomoDigits',
+                      help='Previous count of printed messages',
+                      allowsPointers=False)
+
+        # GPU settings
+        form.addHidden(params.USE_GPU, params.BooleanParam, default=True,
+                       expertLevel=params.LEVEL_ADVANCED,
+                       label="Use GPU (vs CPU)",
+                       help="Set to true if you want to use GPU implementation ")
+        form.addHidden(params.GPU_LIST, params.StringParam, default='0',
+                       expertLevel=params.LEVEL_ADVANCED,
+                       label="Choose GPU ID",
+                       help="GPU may")
+
+        form.addParallelSection(threads=1, mpi=1)
+
+        # --------------------------- STEPS functions ------------------------------
     def _insertAllSteps(self):
         # Insert processing steps
-        self._insertFunctionStep('greetingsStep')
+        self._insertFunctionStep(self.generateParamsFile)
+        #self._insertFunctionStep(self.novaSTAStep)
         self._insertFunctionStep('createOutputStep')
 
-    def greetingsStep(self):
+    def novaSTAStep(self):
         # say what the parameter says!!
 
-        for time in range(0, self.times.get()):
-            print(self.message)
+        pass
+
+    def generateParamsFile(self):
+        filename = self._getExtraPath("parameter_file.txt")
+        print(filename)
+        f = open(filename, "w")
+        gpuToUse = self.getGpuList()[0]
+        f.write("useGPU %i \n" % gpuToUse)
+        f.write("extractSubtomos %i \n" % self.extractSubtomos)
+        f.write("createRef %i \n" % self.createRef)
+        f.write("symmetry %i \n" % self.symmetry)
+        f.write("class %i \n" % self.getParam('class'))
+        f.write("threshold %i \n" % self.getParam('threshold'))
+        f.write("motl %i \n" % self.getParam('motl'))
+        f.write("folder %s" % self.getParam('folder'))
+        f.write("ref %s" % self.getParam('ref'))
+        f.write("mask %s" % self.getParam('mask'))
+        f.write("ccMask %s" + str(self.getParam('ccMask')) + "\n")
+        f.write("wedgeList %s" + str(self.getParam('wedgeList')) + "\n")
+        f.write("subtomograms %s" + str(self.getParam('subtomograms')) + "\n")
+        f.write("iter " + str(self.getParam('iter')) + "\n")
+        f.write("starIndex " + str(self.getParam('starIndex')) + "\n")
+        f.write("phiIter " + str(self.getParam('phiIter')) + "\n")
+        f.write("phiIncr " + str(self.getParam('phiIncr')) + "\n")
+        f.write("angIter " + str(self.getParam('angIter')) + "\n")
+        f.write("angIncr " + str(self.getParam('angIncr')) + "\n")
+        f.write("lowPass " + str(self.getParam('lowPass')) + "\n")
+        f.write("highPass " + str(self.getParam('highPass')) + "\n")
+        f.write("subtomoSize " + str(self.getParam('subtomoSize')) + "\n")
+        f.write("tomograms " + str(self.getParam('tomograms')) + "\n")
+        f.write("tomoDigits " + str(self.getParam('tomoDigits')) + "\n")
+
+        f.close()
+
 
     def createOutputStep(self):
         # register how many times the message has been printed
         # Now count will be an accumulated value
-        timesPrinted = Integer(self.times.get() + self.previousCount.get())
+        #timesPrinted = Integer(self.times.get() + self.previousCount.get())
+        timesPrinted = 3
         self._defineOutputs(count=timesPrinted)
 
     # --------------------------- INFO functions -----------------------------------
