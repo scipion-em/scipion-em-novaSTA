@@ -81,7 +81,7 @@ class novaSTAPrefixHelloWorld(Protocol):
                       help='Previous count of printed messages',
                       allowsPointers=False)
 
-        form.addParam('class', params.IntParam,
+        form.addParam('classParam', params.IntParam,
                       default=1,
                       allowsNull=False,
                       label='class',
@@ -138,7 +138,7 @@ class novaSTAPrefixHelloWorld(Protocol):
                       allowsPointers=False)
 
         form.addParam('startIndex', params.IntParam,
-                      default=0,
+                      default=1,
                       allowsNull=False,
                       label='Start Index',
                       help='Previous count of printed messages',
@@ -230,6 +230,8 @@ class novaSTAPrefixHelloWorld(Protocol):
         pass
 
     def generateParamsFile(self):
+        """ Generates a file with the parameters the command needs """
+
         filename = self._getExtraPath("parameter_file.txt")
         print(filename)
         f = open(filename, "w")
@@ -238,26 +240,26 @@ class novaSTAPrefixHelloWorld(Protocol):
         f.write("extractSubtomos %i \n" % self.extractSubtomos)
         f.write("createRef %i \n" % self.createRef)
         f.write("symmetry %i \n" % self.symmetry)
-        f.write("class %i \n" % self.getParam('class'))
-        f.write("threshold %i \n" % self.getParam('threshold'))
-        f.write("motl %i \n" % self.getParam('motl'))
-        f.write("folder %s" % self.getParam('folder'))
-        f.write("ref %s" % self.getParam('ref'))
-        f.write("mask %s" % self.getParam('mask'))
-        f.write("ccMask %s" + str(self.getParam('ccMask')) + "\n")
-        f.write("wedgeList %s" + str(self.getParam('wedgeList')) + "\n")
-        f.write("subtomograms %s" + str(self.getParam('subtomograms')) + "\n")
-        f.write("iter " + str(self.getParam('iter')) + "\n")
-        f.write("starIndex " + str(self.getParam('starIndex')) + "\n")
-        f.write("phiIter " + str(self.getParam('phiIter')) + "\n")
-        f.write("phiIncr " + str(self.getParam('phiIncr')) + "\n")
-        f.write("angIter " + str(self.getParam('angIter')) + "\n")
-        f.write("angIncr " + str(self.getParam('angIncr')) + "\n")
-        f.write("lowPass " + str(self.getParam('lowPass')) + "\n")
-        f.write("highPass " + str(self.getParam('highPass')) + "\n")
-        f.write("subtomoSize " + str(self.getParam('subtomoSize')) + "\n")
-        f.write("tomograms " + str(self.getParam('tomograms')) + "\n")
-        f.write("tomoDigits " + str(self.getParam('tomoDigits')) + "\n")
+        f.write("class %i \n" % self.classParam)
+        f.write("threshold %6.1f \n" % self.threshold)
+        f.write("motl %s \n" % self.motl)
+        f.write("folder %s \n" % self.folder)
+        f.write("ref %s \n" % self.ref)
+        f.write("mask %s \n" % self.mask)
+        f.write("ccMask %s \n" % self.ccMask)
+        f.write("wedgeList %s \n" % self.wedgeList)
+        f.write("subtomograms %s \n" % self.subtomograms)
+        f.write("iter %i \n" % self.iter)
+        f.write("startIndex %i \n" % self.startIndex)
+        f.write("phiIter %i \n" % self.phiIter)
+        f.write("phiIncr %i \n" % self.phiIncr)
+        f.write("angIter %i \n" % self.angIter)
+        f.write("angIncr %i \n" % self.angIncr)
+        f.write("lowPass %i \n" % self.lowPass)
+        f.write("highPass %i \n" % self.highPass)
+        f.write("subtomoSize %i \n" % self.subtomoSize)
+        f.write("tomograms %s \n" % self.tomograms)
+        f.write("tomoDigits %i \n" % self.tomoDigits)
 
         f.close()
 
